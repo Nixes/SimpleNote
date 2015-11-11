@@ -1,5 +1,5 @@
 #folder ignore
-ignore/ 
+ignore/*
 
 # Windows image file caches
 Thumbs.db
