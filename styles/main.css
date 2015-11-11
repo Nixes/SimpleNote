@@ -1,0 +1,98 @@
+html {
+	background:url("footer_lodyas.png") repeat;
+	font-family:sans-serif;
+}
+
+h2, body, p {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+}
+
+#notes {
+	font-family:"Times New Roman",Times,serif;
+	margin: 0 auto;
+	margin-bottom:20px;
+	max-width: 720px; /* was 400 changed to play with flex box wrapping */
+	display: flex;
+	flex-wrap: wrap;
+}
+
+// this should make this half decent on mobile devices
+@media screen and (min-width:400px) {
+	#notes {
+		max-width: 240px;
+	}
+}
+
+.note {
+	position:relative;
+	background: white;
+	margin: 10px;
+	padding:10px;
+	width: 200px;
+	word-break: break-word;
+}
+.edit, .delete {
+	background-color: #99CCFF;
+	color: #FFFFFF;
+	position: absolute;
+	float: right;
+	padding:5px;
+	bottom: 0;
+	right: 0px;
+	display: none;
+}
+.edit:hover, .delete:hover{
+	background-color: #FF4C4C;
+}
+.edit:active, .delete:active{
+	background-color: #000000;
+}
+.delete {
+	right: 40px;
+}
+
+#top_bar { /* TODO: a little ugly really, try using just borders next time
+	background: -moz-linear-gradient(left, #ffffff 0%, #fffff2 25%, #fffff2 75%, #ffffff 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(25%,#fffff2), color-stop(75%,#fffff2), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left, #ffffff 0%,#fffff2 25%,#fffff2 75%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, #ffffff 0%,#fffff2 25%,#fffff2 75%,#ffffff 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, #ffffff 0%,#fffff2 25%,#fffff2 75%,#ffffff 100%); /* IE10+ */
+	background: linear-gradient(to right, #ffffff 0%,#fffff2 25%,#fffff2 75%,#ffffff 100%); /* W3C */
+}
+#top_bar_sub {
+	width:550px;
+	margin:0 auto;
+}
+
+#add_note {
+	/* background: #FFFFF2; */
+	padding:10px;
+	width: 400px;
+	display:inline-block;
+}
+#noteContent {
+    height:15px;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+	-moz-transition: all 1s;
+	-o-transition: all 1s;
+	-ms-transition: all 1s;
+}
+#noteContent:focus {
+	height:100px;
+}
+#add_note form  button{
+float:right;
+}
+#top_bar #status {
+	display:inline-block;
+	margin:10px;
+	color:#CCCCCC;
+}
+.clearfloat {
+	clear:both;
+}
