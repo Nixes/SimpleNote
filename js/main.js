@@ -1,7 +1,7 @@
-// gonna try my luck at some AJAX here, hopefully I don't end up with egg on my face
+var pixelBufferFetch= 200 ; // number of pixels to leave between end of last page of notes and the next to fetch, depends on time required to get next page and user scroll velocity
 
 var notes = {
-    notesPerRequest: 36,
+    notesPerRequest: 15,
     currentPage: 0,
 	status: 0,
 	note: [],
@@ -32,7 +32,7 @@ var notes = {
                                 notes.note.splice(i, 1)
                             }
                         }
-                        nodeToRemove.remove(); // yay obvious implementation is obvious, only works on modern browsers sadly :\
+                        nodeToRemove.remove(); // this has come compatability issues with older browsers
                     }
                 }
             }
@@ -51,10 +51,13 @@ var notes = {
         // Email addresses
         var emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
 		// wow this looks neat, from https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
-        return noteContent
+        tmp = noteContent
             .replace(urlPattern, '<a href="$&">$&</a>')
             .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
             .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+        tmp = tmp.replace(/[\n\r]/g, '<br />'); // converts newlines to standard html line breaks
+        
+        return tmp;
 	},
 	display: function (pageNotes) {
 		for (i=0;i< pageNotes.length; i++) {
@@ -173,7 +176,7 @@ function checkScroll () { // only his noodliness knows the compatibility of this
 	// end shitty compatibility
 	
 	console.log( "window.pageYOffset: " + window.pageYOffset + " documentHeight " + documentHeight + " window.innerHeight: " + window.innerHeight ); // debugness
-	if ( window.pageYOffset + window.innerHeight > (documentHeight - 50) ) { 
+	if ( window.pageYOffset + window.innerHeight > (documentHeight - pixelBufferFetch)  & notes.status == 0) { // was if ( window.pageYOffset + window.innerHeight > (documentHeight - 50)  & notes.status == 0) { 
 		notes.getPage();
 	}
 }
@@ -187,8 +190,7 @@ function fillPage () {
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
     // end shitty compatibility
 	
-    //while ((window.innerHeight + 50) > documentHeight) { // loops are unreliable in js...
-    if ((window.innerHeight + 50) > documentHeight) {
+    if ((window.innerHeight + pixelBufferFetch) > documentHeight) { // was if ((window.innerHeight + 50) > documentHeight) {
         if (notes.status == 0) { // simple blocking system, prevents notes from loading in wrong order TODO: FIX ,this may have issues when scrolling too fast, may need some kind of queuing system
             console.log("A page was requested during filling");
             notes.getPage();
@@ -198,8 +200,9 @@ function fillPage () {
 
 
 function init () {
-    window.setInterval(fillPage, 1000); // todo: auto destruct this event after page filled
-
+   // window.setInterval(fillPage, 1000); // todo: auto destruct this event after page filled
+    fillPage();
+    
 	window.onscroll = checkScroll; // only check after the page has loaded
 	// a touchmove event on mobile devices may be a good alternative
 }
