@@ -28,7 +28,7 @@ function getNotesElementNo($conn,$Request_Elements) {
     for ($i=0; $i < sizeof($Request_Elements); $i++) {
         if ( $noteQuery = mysqli_query($conn, "SELECT * FROM `notes` WHERE noteNo=$Request_Elements[$i]") ) {
             while ($note = mysqli_fetch_row($noteQuery) ) {
-                //echo '$note[0]','$note[1]' ; 
+                //echo '$note[0]','$note[1]' ;
                 $ResultNotes[$i] = $note;
             };
         };
@@ -70,6 +70,7 @@ function checkUpdates($conn, $noteNo) {
         echo json_encode($ResultNotes);
     }
 }
+
 // request summary model
 // need type of request, notesRequest_Type = page, notesRequest_Type = elementno
 // need elements requested, notesRequest_Elements[noelements] = {1,2,3,4,5,6,7} or just 1
@@ -77,13 +78,19 @@ function checkUpdates($conn, $noteNo) {
 
 if ( isset ( $_POST["notesRequest_Type"]) ) {
     if ($_POST["notesRequest_Type"] == "page") {
+      if (ctype_digit($_POST["notesRequest_LastGroupNo"]) && ctype_digit($_POST["noteRequest_Page"]) ) {
         getNotesPage($conn,$_POST["notesRequest_LastGroupNo"], $_POST["noteRequest_Page"] );
+      }
     }
     else if ($_POST["notesRequest_Type"] == "remove") {
+      if ( ctype_digit($_POST["noteNo"]) ) {
         removeNote($conn, $_POST["noteNo"] );
+      }
     }
     else if ($_POST["notesRequest_Type"] == "elementno") {
-        getNotesElementNo($conn, $_POST["notesRequest_Elements"] ); // unsafe, check input is number first
+      if ( ctype_digit($_POST["notesRequest_Elements"]) ) {
+        getNotesElementNo($conn, $_POST["notesRequest_Elements"] );
+      }
     }
     else if ($_POST["notesRequest_Type"] == "checkupdate") {
         checkUpdates($conn, $_POST["notesRequest_CheckNotes"] );
