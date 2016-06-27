@@ -82,10 +82,10 @@ function updateNote ($conn,$noteNo) {
     if ( $noteQuery = mysqli_query($conn, "UPDATE `notes` SET note=$note WHERE noteNo=$noteNo") ) {
         echo "ok";
     } else {
-        echo "failed";
+        echo "failed - updating";
     }
   } else {
-    echo "failed";
+    echo "failed - validation";
   }
 }
 
