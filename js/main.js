@@ -1,5 +1,6 @@
 // number of pixels to leave between end of last page of notes and the next to fetch, depends on time required to get next page and user scroll velocity
-var pixelBufferFetch= 200 ;
+var pixelBufferFetch = 200;
+
 var notes = {
   notesPerRequest: 15,
   currentPage: 0,
@@ -15,6 +16,7 @@ var notes = {
         return new ActiveXObject("Microsoft.XMLHTTP");
       }
   },
+
   remove: function (nodeToRemove) {
       var nodeToRemoveId = nodeToRemove.getAttribute('id');
         var r = confirm("Remove note?");
@@ -44,6 +46,7 @@ var notes = {
             xmlhttp.send("notesRequest_Type=remove&noteNo=" + nodeToRemoveId);
         }
   },
+
   parser: function (noteContent) {
     // linkify note content
     // http://, https://, ftp://
@@ -55,7 +58,7 @@ var notes = {
     // Email addresses
     var emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
     // from https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
-    tmp = noteContent
+    var tmp = noteContent
         .replace(urlPattern, '<a href="$&">$&</a>')
         .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
         .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
@@ -63,6 +66,7 @@ var notes = {
 
     return tmp;
   },
+
   display: function (pageNotes) {
     for (i=0;i< pageNotes.length; i++) {
       var newNote = document.createElement('div');
@@ -125,6 +129,7 @@ var notes = {
     xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.send("notesRequest_Type=checkupdate&notesRequest_CheckNotes=" + Page);
   },
+
   add: function () {
       note = document.getElementById("noteContent").value;
       var xmlhttp = notes.getXmlhttp();
@@ -155,6 +160,7 @@ var notes = {
     xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.send("notesRequest_Type=page&notesRequest_LastGroupNo="+this.notesPerRequest+"&noteRequest_Page=" + this.currentPage);
   },
+
   changePageStatus: function (setStatus) {
     // a bunch of status's defined by a number here
     var statusString = "";
@@ -171,6 +177,7 @@ var notes = {
     document.getElementById('status').innerHTML = '<p>' + statusString + '</p>';
   }
 };
+
 
 // this function has historically had issues with mobile browsers
 function checkScroll () {
@@ -201,7 +208,6 @@ function fillPage () {
       }
     }
 }
-
 
 function init () {
   fillPage();
