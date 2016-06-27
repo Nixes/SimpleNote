@@ -71,6 +71,24 @@ function checkUpdates($conn, $noteNo) {
     }
 }
 
+function updateNote ($conn,$noteNo) {
+  if (
+  ( isset($_POST["note"]) and $_POST["note"] != "" ) and
+  ( isset($_POST["noteNo"]) and $_POST["noteNo"] != "" and ctype_digit($_POST["noteNo"]) )
+  ) {
+
+    $note = mysqli_escape_string($conn,  $_POST["note"] );
+    $noteNo = $_POST["noteNo"];
+    if ( $noteQuery = mysqli_query($conn, "UPDATE `notes` SET note=$note WHERE noteNo=$noteNo") ) {
+        echo "ok";
+    } else {
+        echo "failed";
+    }
+  } else {
+    echo "failed";
+  }
+}
+
 // request summary model
 // need type of request, notesRequest_Type = page, notesRequest_Type = elementno
 // need elements requested, notesRequest_Elements[noelements] = {1,2,3,4,5,6,7} or just 1
@@ -93,10 +111,13 @@ if ( isset ( $_POST["notesRequest_Type"]) ) {
       }
     }
     else if ($_POST["notesRequest_Type"] == "checkupdate") {
-        checkUpdates($conn, $_POST["notesRequest_CheckNotes"] );
+      checkUpdates($conn, $_POST["notesRequest_CheckNotes"] );
     }
     else if ($_POST["notesRequest_Type"] == "add") {
-        insertNote($conn);
+      insertNote($conn);
+    }
+    else if ($_POST["notesRequest_Type"] == "update") {
+      updateNote($conn);
     }
 }
 ?>
