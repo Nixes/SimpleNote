@@ -37,29 +37,19 @@ h2, body, p {
 	background: #222;
 	color:rgba(201, 201, 201, 1);
 }
-.edit, .delete {
-	/*background-color: #99CCFF;
-	color: #FFFFFF;*/
-	margin-left: 5px;
-	float: right;
-}
-/*
-.edit:hover, .delete:hover{
-	background-color: #FF4C4C;
-}
-.edit:active, .delete:active{
-	background-color: #000000;
-}
-*/
 
 .notecontent {
 	padding:10px;
 }
-
 .buttonbar {
 	padding:5px;
 	background: rgba(0, 0, 0, 0.03);
 }
+.buttonbar button {
+	margin-left: 5px;
+	float: right;
+}
+
 
 
 /* some generic button styling */
