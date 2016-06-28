@@ -32,7 +32,6 @@ h2, body, p {
   box-shadow: 0px 2px 4px 1px rgba(0,0,0,0.3);
   border-radius: 2px;
 	word-wrap: break-word;
-
   animation-name: fadeIn;
   animation-duration: 1s;
 }

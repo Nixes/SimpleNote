@@ -73,7 +73,7 @@ var notes = {
       newNote.setAttribute('class','note');
       newNote.setAttribute('id',pageNotes[i][1]); // set id to note number
       pageNotes[i][0] = this.parser(pageNotes[i][0] );
-      newNote.innerHTML = '<p>' + pageNotes[i][0] + '</p><div class=edit>edit</div><div class=delete>del</div>';
+      newNote.innerHTML = '<p>' + pageNotes[i][0] + '</p><button class=edit>edit</button><button class=delete>del</button>';
       //newNote.style.cursor = 'pointer';
       //newNote.onclick = function (e) {
       //    console.log("The origin element was " + this.getAttribute('id')); // note that this does not work correctly ie < 8
@@ -83,19 +83,25 @@ var notes = {
       //    notes.remove(this.getAttribute('id'));
       //  }
         //};
-      newNote.onmouseover = function (e) {
-          //console.log("The origin element was " + this.getAttribute('id')); // note that this does not work correctly ie < 8
+
+      var editButton = document.createElement('button');
+      editButton.textContent = "edit";
+
+      editButton.onclick = function (e) {
+        console.log("Edit button clicked");
+      }
+      /* newNote.onmouseover = function (e) {
           for (var i = 0; i < this.childNodes.length; i++) {
-              if (this.childNodes[i].className == "edit") {
-              } else if (this.childNodes[i].className == "delete") {
-                  this.childNodes[i].onclick = function (e) {
-                      console.log("Element no " + e.target.parentNode.getAttribute('id') + " clicked");
-                      notes.remove(e.target.parentNode);
-                      //e.target.parentNode.style.backgroundColor = 'rgb(208, 117, 117)';
-                  };
-              }
+            if (this.childNodes[i].className == "edit") {
+
+            } else if (this.childNodes[i].className == "delete") {
+              this.childNodes[i].onclick = function (e) {
+                console.log("Element no " + e.target.parentNode.getAttribute('id') + " clicked");
+                notes.remove(e.target.parentNode);
+              };
+            }
           }
-      };
+      }; */
       document.getElementById('notes').appendChild(newNote);
     }
   },
