@@ -76,7 +76,7 @@ var notes = {
 
   },
 
-  /* this cancels an edit operaiton */
+  /* this cancels an edit operation */
   cancel: function (noteToEdit) {
     this.disableEdit(noteToEdit);
   },
@@ -90,6 +90,9 @@ var notes = {
     noteToEdit.childNodes[2].style.display = "none";
 
     noteToEdit.style.zIndex = "auto";
+
+    // reflow now that returning to normal view
+    msnry.layout();
   },
 
   /* this initiates an edit operation */
