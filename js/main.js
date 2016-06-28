@@ -36,6 +36,10 @@ var notes = {
                         }
                         // this has some compatability issues with older browsers
                         nodeToRemove.remove();
+
+                        // now need to reflow the existing items
+                        msnry.reloadItems();
+                        msnry.layout();
                     }
                 }
             };
