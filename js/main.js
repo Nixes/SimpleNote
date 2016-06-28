@@ -219,6 +219,11 @@ function fillPage () {
     }
 }
 
+function showAddNote () {
+  var addNoteElement = document.getElementById("top_bar");
+  addNoteElement.style.display = "block";
+}
+
 function initMasonry () {
   var elem = document.querySelector('#notes');
   var msnry = new Masonry( elem, {

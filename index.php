@@ -25,6 +25,8 @@
 	<div class="clearfloat"></div>
 </div>
 
+<button id="addnotebutton" onclick="showAddNote()">add note</button>
+
 <div id="notes">
 </div>
 <?php
