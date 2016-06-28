@@ -9,7 +9,7 @@ h2, body, p {
 }
 
 #container {
-	max-width: 620px;
+	width: 620px;
 	margin: 0 auto;
 }
 
@@ -110,11 +110,11 @@ button:active {
 	clear:both;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 620px) {
 	#container {
-		margin:10;
+		margin:0;
 		padding:0;
-		max-width:100%;
+		width:100%;
 	}
 	.note {
 		width:100%;
