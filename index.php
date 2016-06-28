@@ -26,7 +26,7 @@
   <div id="notes">
   </div>
 </div>
-<div id="dim"></div>
+<div id="dim" onclick="hideDim()"></div>
 <?php
 include __DIR__.'../../user_validate.php';
 
