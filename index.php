@@ -12,22 +12,19 @@
 
 <body>
 
-<div id="top_bar">
-	<div id="top_bar_sub">
-		<div id="add_note">
-			<form onsubmit="notes.add()">
-				<textarea  rows="1" id="noteContent"></textarea>
-				<button type="submit">add</button>
-			</form>
-		</div>
-		<div id="status"></div>
-</div>
-	<div class="clearfloat"></div>
-</div>
+<div id="container">
+  		<div id="add_note">
+  			<form onsubmit="notes.add()">
+  				<textarea  rows="1" id="noteContent"></textarea>
+  				<button type="submit">add</button>
+  				<button type="reset" id="cancel" onclick="hideAddNote()">cancel</button>
+  			</form>
+  		</div>
 
-<button id="addnotebutton" onclick="showAddNote()">add note</button>
+  <button id="addnotebutton" onclick="showAddNote()">add note</button>
 
-<div id="notes">
+  <div id="notes">
+  </div>
 </div>
 <?php
 include __DIR__.'../../user_validate.php';

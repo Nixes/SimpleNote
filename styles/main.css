@@ -8,10 +8,13 @@ h2, body, p {
 	margin: 0;
 }
 
-#notes {
-  background: #EEE;
+#container {
+	max-width: 620px;
 	margin: 0 auto;
-  max-width: 620px;
+}
+
+#notes {
+
 }
 
 /* clearfix */
@@ -90,45 +93,30 @@ button:active {
 	color:#000;
 }
 
-
-#top_bar {
-	display: none;
-  background:white;
-  box-shadow: 0px 2px 4px 1px rgba(0,0,0,0.3);
-  margin-bottom:5px;
-}
-#top_bar_sub {
-	width:550px;
-	margin:0 auto;
-}
-
 #add_note {
+	display: none;
+	background:white;
 	/* background: #FFFFF2; */
-	padding:10px;
-	width: 400px;
-	display:inline-block;
+	z-index: 2;
+	width: 100%;
 }
 #noteContent {
-  width:350px;
-  height:15px;
-  transition: all 1s;
-  -webkit-transition: all 1s;
-	-moz-transition: all 1s;
-	-o-transition: all 1s;
-	-ms-transition: all 1s;
-}
-#noteContent:focus {
-	height:100px;
-}
-#add_note form  button{
-	float:right;
-}
-#top_bar #status {
-	display:inline-block;
-	margin:10px;
-	color:#CCCCCC;
+  width:100%;
+  height:100px;
+	resize: none;
 }
 
 .clearfloat {
 	clear:both;
+}
+
+@media only screen and (max-width: 600px) {
+	#container {
+		margin:10;
+		padding:0;
+		max-width:100%;
+	}
+	.note {
+		width:100%;
+	}
 }

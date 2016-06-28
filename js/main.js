@@ -184,7 +184,6 @@ var notes = {
         this.status = 1;
         break;
     }
-    document.getElementById('status').innerHTML = '<p>' + statusString + '</p>';
   }
 };
 
@@ -220,8 +219,12 @@ function fillPage () {
 }
 
 function showAddNote () {
-  var addNoteElement = document.getElementById("top_bar");
+  var addNoteElement = document.getElementById("add_note");
   addNoteElement.style.display = "block";
+}
+function hideAddNote () {
+  var addNoteElement = document.getElementById("add_note");
+  addNoteElement.style.display = "none";
 }
 
 function initMasonry () {
