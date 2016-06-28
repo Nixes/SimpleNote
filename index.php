@@ -7,6 +7,7 @@
 		<title>Simple notes</title>
 		<link rel="stylesheet" type="text/css" href="styles/main.css">
 		<script src="./js/main.js"></script>
+		<script src="./js/masonry.pkgd.min.js"></script>
 </head>
 
 <body>
@@ -41,7 +42,7 @@ require_once (__DIR__.'../../settings.php');
 $result = mysqli_query($conn, "SELECT * FROM notes;");
 if ($result == FALSE) {
     echo "<p>Table does not exist, it is being created.</p>";
-    mysqli_query($conn, "CREATE TABLE notes ( 
+    mysqli_query($conn, "CREATE TABLE notes (
                                         note Varchar(10000),
                                         noteNo Int unique
                                         ); " ); // use of int to store note number has downside of only allowing maximum of 2147483647 possible notes, must be unique to prevent collisions

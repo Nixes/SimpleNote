@@ -113,6 +113,9 @@ var notes = {
       newNote.appendChild(buttonBar);
 
       document.getElementById('notes').appendChild(newNote);
+
+      msnry.reloadItems();
+      msnry.layout();
     }
   },
 
@@ -213,9 +216,21 @@ function fillPage () {
     }
 }
 
-function init () {
-  fillPage();
+function initMasonry () {
+  var elem = document.querySelector('#notes');
+  var msnry = new Masonry( elem, {
+    // options
+    transitionDuration: 0,
+    gutter: 10,
+    itemSelector: '.note',
+    columnWidth: 200
+  });
+  return msnry;
+}
 
+function init () {
+  msnry = initMasonry();
+  fillPage();
   window.onscroll = checkScroll;
   // a touchmove event on mobile devices may be a good alternative
 }
