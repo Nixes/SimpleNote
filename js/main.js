@@ -67,38 +67,56 @@ var notes = {
     return tmp;
   },
 
+  edit: function (noteToEdit) {
+    //noteToEdit.className = noteToEdit.className + "editable";
+    noteToEdit.childNodes[0].contentEditable = true;
+  },
+
   display: function (pageNotes) {
     for (i=0;i< pageNotes.length; i++) {
       var newNote = document.createElement('div');
       newNote.setAttribute('class','note');
       newNote.setAttribute('id',pageNotes[i][1]); // set id to note number
-      pageNotes[i][0] = this.parser(pageNotes[i][0] );
-      newNote.innerHTML = '<p>' + pageNotes[i][0] + '</p>';
+
+      var noteContent = document.createElement('div');
+      noteContent.className = "notecontent";
+      noteContent.innerHTML = this.parser(pageNotes[i][0]);
+
+
+      var buttonBar = document.createElement('div');
+      buttonBar.className = "buttonbar";
 
       var editButton = document.createElement('button');
       editButton.textContent = "edit";
       editButton.className = "edit";
       editButton.onclick = function (e) {
-        console.log("Edit button clicked from note: "+e.target.parentNode.getAttribute('id'));
-
-      }
+        console.log("Edit button clicked from note: "+e.target.parentNode.parentNode.getAttribute('id'));
+        notes.edit(e.target.parentNode.parentNode);
+      };
 
       var deleteButton = document.createElement('button');
       deleteButton.textContent = "del";
       deleteButton.className = "delete";
       deleteButton.onclick = function (e) {
-        console.log("Delete button clicked from note: "+e.target.parentNode.getAttribute('id'));
-        notes.remove(e.target.parentNode);
-      }
+        console.log("Delete button clicked from note: "+e.target.parentNode.parentNode.getAttribute('id'));
+        notes.remove(e.target.parentNode.parentNode);
+      };
 
-      newNote.appendChild(editButton);
-      newNote.appendChild(deleteButton);
+      var clearfloat = document.createElement('div');
+      clearfloat.className = "clearfloat";
+
+      buttonBar.appendChild(editButton);
+      buttonBar.appendChild(deleteButton);
+      buttonBar.appendChild(clearfloat);
+
+      newNote.appendChild(noteContent);
+      newNote.appendChild(buttonBar);
 
       document.getElementById('notes').appendChild(newNote);
     }
   },
 
-  // function to check for updates, check to see if there are any new notes with a higher ID number than we currently have
+  // function to check for updates, check to see if there are any notes with a higher ID number than we currently have
   // if there are, they will be returned like a normal page request
   update: function () {
       var xmlhttp = notes.getXmlhttp();
@@ -172,7 +190,7 @@ function checkScroll () {
   var documentHeight = Math.max( body.scrollHeight, body.offsetHeight,
                        html.clientHeight, html.scrollHeight, html.offsetHeight );
 
-  console.log( "window.pageYOffset: " + window.pageYOffset + " documentHeight " + documentHeight + " window.innerHeight: " + window.innerHeight ); // debugness
+  //console.log( "window.pageYOffset: " + window.pageYOffset + " documentHeight " + documentHeight + " window.innerHeight: " + window.innerHeight ); // debugness
   if ( window.pageYOffset + window.innerHeight > (documentHeight - pixelBufferFetch)  & notes.status === 0) { // was if ( window.pageYOffset + window.innerHeight > (documentHeight - 50)  & notes.status == 0) {
     notes.getPage();
   }

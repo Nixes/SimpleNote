@@ -1,6 +1,6 @@
 html {
-	background: #ECECEC;
-	font-family:sans-serif;
+	background: #e8e8e8;
+	font-family:'Roboto','Droid Sans',arial,sans-serif;
 }
 
 h2, body, p {
@@ -9,10 +9,9 @@ h2, body, p {
 }
 
 #notes {
-	font-family:"Times New Roman",Times,serif;
 	margin: 0 auto;
 	margin-bottom:20px;
-	max-width: 690px;
+	max-width: 720px;
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -26,8 +25,7 @@ h2, body, p {
 	position:relative;
 	background: white;
   color:#5A5A5A;
-	margin: 5px;
-	padding:10px;
+	margin: 10px;
 	width: 200px;
   box-shadow: 0px 2px 4px 1px rgba(0,0,0,0.3);
   border-radius: 2px;
@@ -35,13 +33,15 @@ h2, body, p {
   animation-name: fadeIn;
   animation-duration: 1s;
 }
+.editable {
+	background: #222;
+	color:rgba(201, 201, 201, 1);
+}
 .edit, .delete {
 	/*background-color: #99CCFF;
 	color: #FFFFFF;*/
-	position: absolute;
+	margin-left: 5px;
 	float: right;
-	bottom: 0;
-	right: 0px;
 }
 /*
 .edit:hover, .delete:hover{
@@ -51,8 +51,14 @@ h2, body, p {
 	background-color: #000000;
 }
 */
-.delete {
-	right: 50px;
+
+.notecontent {
+	padding:10px;
+}
+
+.buttonbar {
+	padding:5px;
+	background: rgba(0, 0, 0, 0.03);
 }
 
 
