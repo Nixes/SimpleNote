@@ -72,11 +72,12 @@ var notes = {
   },
 
   edit: function (noteToEdit) {
+    showDim();
     //noteToEdit.className = noteToEdit.className + "editable";
     noteToEdit.childNodes[0].contentEditable = true;
     // set z-index so that when the box outgrows its confines, we can still see
     // what we are writing
-    noteToEdit.childNodes[0].style.zIndex = "1";
+    noteToEdit.style.zIndex = "101";
   },
 
   display: function (pageNotes) {
@@ -222,11 +223,22 @@ function fillPage () {
     }
 }
 
+function showDim() {
+  var dim = document.getElementById("dim");
+  dim.style.display = "block";
+}
+function hideDim() {
+  var dim = document.getElementById("dim");
+  dim.style.display = "none";
+}
+
 function showAddNote () {
+  showDim();
   var addNoteElement = document.getElementById("add_note");
   addNoteElement.style.display = "block";
 }
 function hideAddNote () {
+  hideDim();
   var addNoteElement = document.getElementById("add_note");
   addNoteElement.style.display = "none";
 }

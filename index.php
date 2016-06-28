@@ -12,7 +12,6 @@
 </head>
 
 <body>
-
 <div id="container">
       <div id="add_note">
         <form onsubmit="notes.add()">
@@ -27,6 +26,7 @@
   <div id="notes">
   </div>
 </div>
+<div id="dim"></div>
 <?php
 include __DIR__.'../../user_validate.php';
 
