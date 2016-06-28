@@ -237,11 +237,13 @@ function showAddNote () {
   showDim();
   var addNoteElement = document.getElementById("add_note");
   addNoteElement.style.display = "block";
+  document.getElementById("noteContent").focus();
 }
 function hideAddNote () {
   hideDim();
   var addNoteElement = document.getElementById("add_note");
   addNoteElement.style.display = "none";
+  document.getElementById("noteContent").blur();
 }
 
 function initMasonry () {
