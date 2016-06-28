@@ -73,35 +73,27 @@ var notes = {
       newNote.setAttribute('class','note');
       newNote.setAttribute('id',pageNotes[i][1]); // set id to note number
       pageNotes[i][0] = this.parser(pageNotes[i][0] );
-      newNote.innerHTML = '<p>' + pageNotes[i][0] + '</p><button class=edit>edit</button><button class=delete>del</button>';
-      //newNote.style.cursor = 'pointer';
-      //newNote.onclick = function (e) {
-      //    console.log("The origin element was " + this.getAttribute('id')); // note that this does not work correctly ie < 8
-      //    //this.style.backgroundColor = 'rgb(109, 143, 187)';
-      //  var r = confirm("Are you sure you want to delete?");
-      //  if (r==true) {
-      //    notes.remove(this.getAttribute('id'));
-      //  }
-        //};
+      newNote.innerHTML = '<p>' + pageNotes[i][0] + '</p>';
 
       var editButton = document.createElement('button');
       editButton.textContent = "edit";
-
+      editButton.className = "edit";
       editButton.onclick = function (e) {
-        console.log("Edit button clicked");
-      }
-      /* newNote.onmouseover = function (e) {
-          for (var i = 0; i < this.childNodes.length; i++) {
-            if (this.childNodes[i].className == "edit") {
+        console.log("Edit button clicked from note: "+e.target.parentNode.getAttribute('id'));
 
-            } else if (this.childNodes[i].className == "delete") {
-              this.childNodes[i].onclick = function (e) {
-                console.log("Element no " + e.target.parentNode.getAttribute('id') + " clicked");
-                notes.remove(e.target.parentNode);
-              };
-            }
-          }
-      }; */
+      }
+
+      var deleteButton = document.createElement('button');
+      deleteButton.textContent = "del";
+      deleteButton.className = "delete";
+      deleteButton.onclick = function (e) {
+        console.log("Delete button clicked from note: "+e.target.parentNode.getAttribute('id'));
+        notes.remove(e.target.parentNode);
+      }
+
+      newNote.appendChild(editButton);
+      newNote.appendChild(deleteButton);
+
       document.getElementById('notes').appendChild(newNote);
     }
   },

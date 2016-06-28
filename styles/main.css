@@ -36,23 +36,55 @@ h2, body, p {
   animation-duration: 1s;
 }
 .edit, .delete {
-	background-color: #99CCFF;
-	color: #FFFFFF;
+	/*background-color: #99CCFF;
+	color: #FFFFFF;*/
 	position: absolute;
 	float: right;
-	padding:5px;
 	bottom: 0;
 	right: 0px;
 }
+/*
 .edit:hover, .delete:hover{
 	background-color: #FF4C4C;
 }
 .edit:active, .delete:active{
 	background-color: #000000;
 }
+*/
 .delete {
-	right: 40px;
+	right: 50px;
 }
+
+
+/* some generic button styling */
+button{
+  margin: 0;
+  padding: .7em 1em;
+  border: 0;
+  background: #E0E1E2;
+	color:#999;
+  font-style: normal;
+  font-size: 0.7em;
+  cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	border-radius: .28571429rem;
+	box-shadow: 0 0 0 1px transparent inset,0 0 0 0 rgba(34,36,38,.15);
+	transition: background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+}
+button::-moz-focus-inner{
+  padding: 0;
+  border: 0;
+}
+button:hover {
+	background: #ccc;
+	color:#666;
+}
+button:active {
+	background: #aaa;
+	color:#000;
+}
+
 
 #top_bar {
   background:white;
