@@ -77,18 +77,28 @@ var notes = {
   },
 
   /* this cancels an edit operaiton */
-  cancel: function () {
+  cancel: function (noteToEdit) {
+    this.disableEdit(noteToEdit);
+  },
 
+  disableEdit: function (noteToEdit) {
+    hideDim();
+    noteToEdit.childNodes[0].blur();
+
+    // hide editbar and show buttonbar
+    noteToEdit.childNodes[1].style.display = "block";
+    noteToEdit.childNodes[2].style.display = "none";
+
+    noteToEdit.style.zIndex = "auto";
   },
 
   /* this initiates an edit operation */
-  edit: function (noteToEdit) {
+  enableEdit: function (noteToEdit) {
     showDim();
-    //noteToEdit.className = noteToEdit.className + "editable";
     noteToEdit.childNodes[0].contentEditable = true;
     noteToEdit.childNodes[0].focus();
 
-    // hide
+    // hide normal buttonbar and show editbar
     noteToEdit.childNodes[1].style.display = "none";
     noteToEdit.childNodes[2].style.display = "block";
 
@@ -116,7 +126,7 @@ var notes = {
       editButton.className = "edit";
       editButton.onclick = function (e) {
         console.log("Edit button clicked from note: "+e.target.parentNode.parentNode.getAttribute('id'));
-        notes.edit(e.target.parentNode.parentNode);
+        notes.enableEdit(e.target.parentNode.parentNode);
       };
 
       var deleteButton = document.createElement('button');
@@ -151,7 +161,7 @@ var notes = {
       cancelButton.className = "cancel";
       cancelButton.onclick = function (e) {
         console.log("Cancel button pressed: "+e.target.parentNode.parentNode.getAttribute('id'));
-        //notes.cancel(e.target.parentNode.parentNode);
+        notes.cancel(e.target.parentNode.parentNode);
       };
 
       var clearfloat2 = document.createElement('div');
