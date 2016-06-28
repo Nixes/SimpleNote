@@ -75,9 +75,10 @@ var notes = {
     showDim();
     //noteToEdit.className = noteToEdit.className + "editable";
     noteToEdit.childNodes[0].contentEditable = true;
+    noteToEdit.childNodes[0].focus();
     // set z-index so that when the box outgrows its confines, we can still see
     // what we are writing
-    noteToEdit.style.zIndex = "101";
+    noteToEdit.style.zIndex = "100";
   },
 
   display: function (pageNotes) {
