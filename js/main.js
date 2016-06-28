@@ -71,11 +71,27 @@ var notes = {
     return tmp;
   },
 
+  /* attempt to send updated note to server */
+  save: function () {
+
+  },
+
+  /* this cancels an edit operaiton */
+  cancel: function () {
+
+  },
+
+  /* this initiates an edit operation */
   edit: function (noteToEdit) {
     showDim();
     //noteToEdit.className = noteToEdit.className + "editable";
     noteToEdit.childNodes[0].contentEditable = true;
     noteToEdit.childNodes[0].focus();
+
+    // hide
+    noteToEdit.childNodes[1].style.display = "none";
+    noteToEdit.childNodes[2].style.display = "block";
+
     // set z-index so that when the box outgrows its confines, we can still see
     // what we are writing
     noteToEdit.style.zIndex = "100";
@@ -111,16 +127,44 @@ var notes = {
         notes.remove(e.target.parentNode.parentNode);
       };
 
-      var clearfloat = document.createElement('div');
-      clearfloat.className = "clearfloat";
+      var clearfloat1 = document.createElement('div');
+      clearfloat1.className = "clearfloat";
 
       buttonBar.appendChild(editButton);
       buttonBar.appendChild(deleteButton);
-      buttonBar.appendChild(clearfloat);
+      buttonBar.appendChild(clearfloat1);
+
+
+      var editButtonBar = document.createElement('div');
+      editButtonBar.className = "buttonbar editbar";
+
+      var saveButton = document.createElement('button');
+      saveButton.textContent = "save";
+      saveButton.className = "save";
+      saveButton.onclick = function (e) {
+        console.log("Save button pressed: "+e.target.parentNode.parentNode.getAttribute('id'));
+        //notes.save(e.target.parentNode.parentNode);
+      };
+
+      var cancelButton = document.createElement('button');
+      cancelButton.textContent = "cancel";
+      cancelButton.className = "cancel";
+      cancelButton.onclick = function (e) {
+        console.log("Cancel button pressed: "+e.target.parentNode.parentNode.getAttribute('id'));
+        //notes.cancel(e.target.parentNode.parentNode);
+      };
+
+      var clearfloat2 = document.createElement('div');
+      clearfloat2.className = "clearfloat";
+
+      editButtonBar.appendChild(saveButton);
+      editButtonBar.appendChild(cancelButton);
+      editButtonBar.appendChild(clearfloat2);
+
 
       newNote.appendChild(noteContent);
       newNote.appendChild(buttonBar);
-
+      newNote.appendChild(editButtonBar);
       document.getElementById('notes').appendChild(newNote);
 
       msnry.reloadItems();
