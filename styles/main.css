@@ -100,8 +100,13 @@ button:active {
 	z-index: 2;
 	width: 100%;
 }
+
+#add_note form {
+	padding:10px;
+}
 #noteContent {
   width:100%;
+	box-sizing: border-box; /* this fixes the strange overflow behavior */
   height:100px;
 	resize: none;
 }
