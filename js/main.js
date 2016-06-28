@@ -87,24 +87,12 @@ var notes = {
           //console.log("The origin element was " + this.getAttribute('id')); // note that this does not work correctly ie < 8
           for (var i = 0; i < this.childNodes.length; i++) {
               if (this.childNodes[i].className == "edit") {
-                  this.childNodes[i].style.display = "block";
-                  this.childNodes[i].style.cursor = 'pointer';
               } else if (this.childNodes[i].className == "delete") {
-                  this.childNodes[i].style.display = "block";
-                  this.childNodes[i].style.cursor = 'pointer';
                   this.childNodes[i].onclick = function (e) {
                       console.log("Element no " + e.target.parentNode.getAttribute('id') + " clicked");
                       notes.remove(e.target.parentNode);
                       //e.target.parentNode.style.backgroundColor = 'rgb(208, 117, 117)';
                   };
-              }
-          }
-      };
-      newNote.onmouseout = function (e) {
-          //console.log("The origin element was " + this.getAttribute('id')); // note that this does not work correctly ie < 8
-          for (var i = 0; i < this.childNodes.length; i++) {
-              if ( (this.childNodes[i].className == "edit") || (this.childNodes[i].className == "delete") ) {
-                  this.childNodes[i].style.display = "none";
               }
           }
       };
