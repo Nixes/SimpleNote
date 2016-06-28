@@ -70,6 +70,9 @@ var notes = {
   edit: function (noteToEdit) {
     //noteToEdit.className = noteToEdit.className + "editable";
     noteToEdit.childNodes[0].contentEditable = true;
+    // set z-index so that when the box outgrows its confines, we can still see
+    // what we are writing
+    noteToEdit.childNodes[0].style.zIndex = "1";
   },
 
   display: function (pageNotes) {
