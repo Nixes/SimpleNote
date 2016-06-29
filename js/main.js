@@ -298,6 +298,9 @@ function fillPage () {
         console.log("A page was requested during filling");
         notes.getPage();
       }
+    } else {
+      console.log("Determined page was full");
+      clearInterval(pagefiller);
     }
 }
 
@@ -337,7 +340,8 @@ function initMasonry () {
 
 function init () {
   msnry = initMasonry();
-  fillPage();
+  pagefiller = setInterval(fillPage,500);
+
   window.onscroll = checkScroll;
   // a touchmove event on mobile devices may be a good alternative
 }
