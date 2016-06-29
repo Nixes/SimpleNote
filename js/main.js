@@ -21,7 +21,7 @@ var notes = {
       var nodeToRemoveId = nodeToRemove.getAttribute('id');
         var r = confirm("Remove note?");
         if (r === true) {
-            note = document.getElementById("noteContent").value;
+            var note = document.getElementById("noteContent").value;
             var xmlhttp = notes.getXmlhttp();
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -72,8 +72,27 @@ var notes = {
   },
 
   /* attempt to send updated note to server */
-  save: function () {
+  save: function (noteToEdit) {
+    var nodeToRemoveId = noteToEdit.getAttribute('id');
+    var note = noteToEdit.childNodes[0].textContent; // first child contains the text
+    var xmlhttp = this.getXmlhttp();
+    xmlhttp.onreadystatechange = function () {
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        if (xmlhttp.responseText == "ok") {
+          console.log("Note was sucessfully saved");
+        } else {
+          console.log("Error updating note: " + xmlhttp.responseText);
+        }
+      }
+    }
+    xmlhttp.open("POST", "noteQuery.php", true);
 
+    // provides information in header telling sever that this request is from a form
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("notesRequest_Type=update&noteNo=" + nodeToRemoveId + "&note=" + note );
+    console.log("notesRequest_Type=update&noteNo=" + nodeToRemoveId + "&note=" + note );
+
+    this.disableEdit(noteToEdit)
   },
 
   /* this cancels an edit operation */
@@ -156,7 +175,7 @@ var notes = {
       saveButton.className = "save";
       saveButton.onclick = function (e) {
         console.log("Save button pressed: "+e.target.parentNode.parentNode.getAttribute('id'));
-        //notes.save(e.target.parentNode.parentNode);
+        notes.save(e.target.parentNode.parentNode);
       };
 
       var cancelButton = document.createElement('button');

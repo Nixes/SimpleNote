@@ -76,10 +76,9 @@ function updateNote ($conn,$noteNo) {
   ( isset($_POST["note"]) and $_POST["note"] != "" ) and
   ( isset($_POST["noteNo"]) and $_POST["noteNo"] != "" and ctype_digit($_POST["noteNo"]) )
   ) {
-
-    $note = mysqli_escape_string($conn,  $_POST["note"] );
     $noteNo = $_POST["noteNo"];
-    if ( $noteQuery = mysqli_query($conn, "UPDATE `notes` SET note=$note WHERE noteNo=$noteNo") ) {
+    $note = mysqli_escape_string($conn,  $_POST["note"] );
+    if ( $noteQuery = mysqli_query($conn, "UPDATE `notes` SET note='$note' WHERE noteNo=$noteNo") ) {
         echo "ok";
     } else {
         echo "failed - updating";
