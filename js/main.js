@@ -84,7 +84,7 @@ var notes = {
           console.log("Error updating note: " + xmlhttp.responseText);
         }
       }
-    }
+    };
     xmlhttp.open("POST", "noteQuery.php", true);
 
     // provides information in header telling sever that this request is from a form
@@ -92,7 +92,7 @@ var notes = {
     xmlhttp.send("notesRequest_Type=update&noteNo=" + nodeToRemoveId + "&note=" + note );
     console.log("notesRequest_Type=update&noteNo=" + nodeToRemoveId + "&note=" + note );
 
-    this.disableEdit(noteToEdit)
+    this.disableEdit(noteToEdit);
   },
 
   /* this cancels an edit operation */
@@ -100,8 +100,10 @@ var notes = {
     this.disableEdit(noteToEdit);
   },
 
+  /* this cleans up after an edit operation */
   disableEdit: function (noteToEdit) {
     hideDim();
+    noteToEdit.childNodes[0].contentEditable = false;
     noteToEdit.childNodes[0].blur();
 
     // hide editbar and show buttonbar
@@ -129,6 +131,7 @@ var notes = {
     noteToEdit.style.zIndex = "100";
   },
 
+  /* this is where new notes are added to the DOM */
   display: function (pageNotes) {
     for (i=0;i< pageNotes.length; i++) {
       var newNote = document.createElement('div');
@@ -246,8 +249,6 @@ var notes = {
               notes.changePageStatus(0);
           }
       };
-    // xmlhttp.timeout = 1000; // ie11 throws errors if I include this TODO: find out why
-    // xmlhttp.ontimeout = function () { notes.changePageStatus(0); }
     xmlhttp.open("POST","noteQuery.php",true);
     xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xmlhttp.send("notesRequest_Type=page&notesRequest_LastGroupNo="+this.notesPerRequest+"&noteRequest_Page=" + this.currentPage);
@@ -318,8 +319,8 @@ function showAddNote () {
 function hideAddNote () {
   hideDim();
   var addNoteElement = document.getElementById("add_note");
-  addNoteElement.style.display = "none";
   document.getElementById("noteContent").blur();
+  addNoteElement.style.display = "none";
 }
 
 function initMasonry () {
