@@ -8,9 +8,15 @@ $conn = @mysqli_connect($host,
   $db
 ) or die("<p>The application failed to connect to the database server</p>");
 
+// takes in note text as it was sent directly to the server
+function filterNoteContents($noteContent) {
+  $filteredNote = filter_var($str, FILTER_SANITIZE_STRING);
+  return $filteredNote;
+}
+
 function insertNote ($conn) {
   if ( isset ( $_POST["note"]) and $_POST["note"] != ""  ) {
-    $note = mysqli_escape_string($conn,  $_POST["note"] );
+    $note = mysqli_escape_string($conn,  filterNoteContents($_POST["note"]) );
     $noteNoQuery = mysqli_query($conn, "SELECT MAX(noteNo) FROM notes;"); // note number is maximum note number plus one
     $noteNoResult = mysqli_fetch_row($noteNoQuery);
     $noteNo =  $noteNoResult[0] + 1;
@@ -77,7 +83,7 @@ function updateNote ($conn,$noteNo) {
   ( isset($_POST["noteNo"]) and $_POST["noteNo"] != "" and ctype_digit($_POST["noteNo"]) )
   ) {
     $noteNo = $_POST["noteNo"];
-    $note = mysqli_escape_string($conn,  $_POST["note"] );
+    $note = mysqli_escape_string($conn, filterNoteContents($_POST["note"]) );
     if ( $noteQuery = mysqli_query($conn, "UPDATE `notes` SET note='$note' WHERE noteNo=$noteNo") ) {
         echo "ok";
     } else {
