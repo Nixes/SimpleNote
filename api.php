@@ -1,18 +1,16 @@
 <?php
+require (__DIR__.'/settings.php');
+$dsn = "mysql:dbname=".$sql_db.";host=".$host;
+$connection = new \PDO($dsn,$user,$pwd);
+
 require 'vendor/autoload.php';
 
 use SimpleNote\Repositories\NoteRepository;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-
-require (__DIR__.'/settings.php');
-$dsn = "mysql:dbname=".$sql_db.";host=".$host;
-$connection = new \PDO($dsn,$user,$pwd);
-
-
 $noteRepository = new NoteRepository($connection);
-
+$noteController = new \SimpleNote\Controllers\NoteController($noteRepository);
 
 // Create and configure Slim app
 $config = ['settings' => [
@@ -21,9 +19,7 @@ $config = ['settings' => [
 $app = new \Slim\App($config);
 
 // Define app routes
-$app->get('/notes/{id}', function (Request $request, Response $response, array $args) {
-    return $response->getBody()->write("Hello " . $args['name']);
-});
+$app->put('/notes/{id}', [$noteController, 'insertNote']);
 
 // Run app
 $app->run();
