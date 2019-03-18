@@ -1,16 +1,12 @@
 <?php
-namespace SimpleNote;
+require 'vendor/autoload.php';
 
 use SimpleNote\Repositories\NoteRepository;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\Route;
-use Symfony\Component\Routing\RouteCollection;
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
 
-$request = Request::createFromGlobals();
 
-require (__DIR__.'settings.php');
+require (__DIR__.'/settings.php');
 $dsn = "mysql:dbname=".$sql_db.";host=".$host;
 $connection = new \PDO($dsn,$user,$pwd);
 
@@ -18,16 +14,19 @@ $connection = new \PDO($dsn,$user,$pwd);
 $noteRepository = new NoteRepository($connection);
 
 
-$routes = new RouteCollection();
-$routes->add('route_name', new Route('/foo', ['_controller' => 'MyController']));
+// Create and configure Slim app
+$config = ['settings' => [
+    'addContentLengthHeader' => false,
+]];
+$app = new \Slim\App($config);
 
+// Define app routes
+$app->get('/notes/{id}', function (Request $request, Response $response, array $args) {
+    return $response->getBody()->write("Hello " . $args['name']);
+});
 
-$context = new RequestContext();
-$context->fromRequest($request);
-
-$matcher = new UrlMatcher($routes, $context);
-
-$matcher->matchRequest($request);
+// Run app
+$app->run();
 
 // request summary model
 // need type of request, notesRequest_Type = page, notesRequest_Type = elementno

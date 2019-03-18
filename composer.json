@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "symfony/http-foundation": "^4.2",
-      "ext-pdo": "*",
-        "symfony/routing": "^4.2"
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "slim/slim": "3.0"
     }
 }
