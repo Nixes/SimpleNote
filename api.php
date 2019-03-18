@@ -3,6 +3,10 @@ namespace SimpleNote;
 
 use SimpleNote\Repositories\NoteRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 $request = Request::createFromGlobals();
 
@@ -12,6 +16,18 @@ $connection = new \PDO($dsn,$user,$pwd);
 
 
 $noteRepository = new NoteRepository($connection);
+
+
+$routes = new RouteCollection();
+$routes->add('route_name', new Route('/foo', ['_controller' => 'MyController']));
+
+
+$context = new RequestContext();
+$context->fromRequest($request);
+
+$matcher = new UrlMatcher($routes, $context);
+
+$matcher->matchRequest($request);
 
 // request summary model
 // need type of request, notesRequest_Type = page, notesRequest_Type = elementno
