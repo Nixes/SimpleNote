@@ -1,0 +1,16 @@
+{
+    "name": "nixes/simple-note",
+    "description": "A simple note editor web app",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Callum Bryant",
+            "email": "callum.l.bryant@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation": "^4.2",
+      "ext-pdo": "*"
+    }
+}
