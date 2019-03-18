@@ -3,12 +3,18 @@
 namespace SimpleNote\Models;
 
 class Note {
+    /**
+     * @var int
+     */
     private $id;
 
+    /**
+     * @var string
+     */
     private $content;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -16,7 +22,7 @@ class Note {
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -24,7 +30,7 @@ class Note {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getContent()
     {
@@ -32,7 +38,7 @@ class Note {
     }
 
     /**
-     * @param mixed $content
+     * @param string $content
      */
     public function setContent($content)
     {
