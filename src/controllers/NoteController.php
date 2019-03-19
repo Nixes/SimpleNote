@@ -44,7 +44,12 @@ class NoteController {
     }
 
     public function updateNote(Request $request, Response $response, array $args) {
-
+        if (
+            ( isset($_POST["note"]) and $_POST["note"] != "" ) and
+            ( isset($_POST["noteNo"]) and $_POST["noteNo"] != "" and ctype_digit($_POST["noteNo"]) )
+        ) {
+            $noteNo = $_POST["noteNo"];
+        }
     }
 
 }

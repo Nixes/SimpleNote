@@ -155,21 +155,22 @@ class NoteRepository {
         }
     }
 
-    public function updateNote ($conn,$noteNo) {
-        if (
-            ( isset($_POST["note"]) and $_POST["note"] != "" ) and
-            ( isset($_POST["noteNo"]) and $_POST["noteNo"] != "" and ctype_digit($_POST["noteNo"]) )
-        ) {
-            $noteNo = $_POST["noteNo"];
-            $note = mysqli_escape_string($conn, filterNoteContents($_POST["note"]) );
-            if ( $noteQuery = mysqli_query($conn, "UPDATE `notes` SET note='$note' WHERE noteNo=$noteNo") ) {
-                echo "ok";
-            } else {
-                echo "failed - updating";
+    public function updateNote (Note $note) {
+            $query =  "UPDATE `notes` SET note=:content WHERE noteNo=:noteId";
+
+            try {
+                $stmt = $this->pdo->prepare($query);
+                $stmt->execute(array(
+                    ":noteId" => $note->getId(),
+                    ":content" => $note->getContent(),
+                ));
+
+                if ($stmt->errorCode() != '0000') {
+                    throw new Exception($stmt->errorInfo()[2]);
+                }
+            } catch (PDOException $e) {
+                throw new Exception($e->getMessage());
             }
-        } else {
-            echo "failed - validation";
-        }
     }
 
     /**
