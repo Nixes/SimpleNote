@@ -1,3 +1,15 @@
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+#dim {
+  display: none;
+}
+
 body {
   margin: 0;
   padding: 0;
