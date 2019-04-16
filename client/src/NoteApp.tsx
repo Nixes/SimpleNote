@@ -3,26 +3,8 @@ import './App.css';
 import Masonry from 'react-masonry-component';
 import CreateNote from "./components/CreateNote";
 import Dimmer from "./components/Dimmer";
-import { Provider, Subscribe, Container } from 'unstated';
-
-interface NoteAppState {
-  isDimmed:boolean;
-}
-
-class NoteAppGlobalState extends Container<NoteAppState> {
-  state = {
-    isDimmed:false
-  };
-
-  showDim() {
-    this.setState({isDimmed:true});
-  }
-  hideDim() {
-    this.setState({isDimmed:false});
-  }
-}
-
-let noteAppGlobalState = new NoteAppGlobalState();
+import { Subscribe } from 'unstated'
+import {DimmedStateUnstated} from "./state/DimmedStateUnstated";
 
 const masonryOptions = {
   transitionDuration: 0,
@@ -31,7 +13,7 @@ const masonryOptions = {
   columnWidth: 200
 };
 
-class NoteApp extends Component<NoteAppState,NoteAppState> {
+class NoteApp extends Component {
   render() {
     return (
       <div id="app">
@@ -46,7 +28,11 @@ class NoteApp extends Component<NoteAppState,NoteAppState> {
 
 
         </div>
-        <Dimmer isDimmed={this.state.isDimmed}></Dimmer>
+		  <Subscribe to={[DimmedStateUnstated]}>
+			  {(dimmedStateUnstated:any) =>
+       			 <Dimmer isDimmed={dimmedStateUnstated.state.isDimmed}></Dimmer>
+			  }
+		  </Subscribe>
       </div>
     );
   }
