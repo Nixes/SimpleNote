@@ -1,15 +1,136 @@
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+	background: #e8e8e8;
+	font-family:'Roboto','Droid Sans',arial,sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h2, body, p {
+	padding: 0;
+	margin: 0;
+}
+
+#container {
+	width: 620px;
+	margin: 0 auto;
+}
+
+#notes {
+
+}
+
+/* clearfix */
+#notes:after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+@keyframes fadeIn {
+	from {opacity: 0;}
+	to {opacity: 1;}
+}
+
+.note {
+	position:relative;
+	background: white;
+	color:#5A5A5A;
+	margin-bottom: 10px; /* needed for spacing in mason */
+	width: 200px;
+	box-shadow: 0px 2px 2px 1px rgba(0,0,0,0.3);
+	border-radius: 2px;
+	word-wrap: break-word;
+	animation-name: fadeIn;
+	animation-duration: 1s;
+	transition: box-shadow .3s ease;
+}
+.note:hover {
+	box-shadow: 0px 2px 10px 1px rgba(0,0,0,0.3);
+}
+.editable {
+	background: #222;
+	color:rgba(201, 201, 201, 1);
+}
+.notecontent {
+	padding:10px;
+}
+.buttonbar {
+	padding:5px;
+	background: rgba(0, 0, 0, 0.03);
+}
+.buttonbar button {
+	margin-left: 5px;
+	float: right;
+}
+.editbar {
+	display: none;
+}
+
+#addnotebutton {
+	display: block;
+	margin: 10px auto;
+}
+
+/* some generic button styling */
+button{
+	margin: 0;
+	padding: .7em 1em;
+	border: 0;
+	background: #E0E1E2;
+	color:#999;
+	font-style: normal;
+	font-size: 0.7em;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	border-radius: .28571429rem;
+	box-shadow: 0 0 0 1px transparent inset,0 0 0 0 rgba(34,36,38,.15);
+	transition: background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+}
+button::-moz-focus-inner{
+	padding: 0;
+	border: 0;
+}
+button:hover {
+	background: #ccc;
+	color:#666;
+}
+button:active {
+	background: #aaa;
+	color:#000;
+}
+
+#add_note {
+	display: none;
+	background:white;
+	/* background: #FFFFF2; */
+	position: relative;
+	z-index: 100;
+	width: 100%;
+}
+
+#add_note form {
+	padding:10px;
+}
+#noteContent {
+	width:100%;
+	box-sizing: border-box; /* this fixes the strange overflow behavior */
+	height:100px;
+	resize: none;
+}
+textarea {
+	font-family:'Roboto','Droid Sans',arial,sans-serif;
+}
+
+.clearfloat {
+	clear:both;
+}
+
+@media only screen and (max-width: 620px) {
+	#container {
+		margin:0;
+		padding:0;
+		width:100%;
+	}
+	.note {
+		width:100%;
+	}
 }
