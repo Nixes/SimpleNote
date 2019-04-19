@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Masonry from 'react-masonry-component';
 import CreateNote from "./components/CreateNote";
-import Dimmer from "./components/Dimmer";
+import Dimmer from "./components/Dimmer/Dimmer";
 import { Subscribe } from 'unstated'
 import {DimmedContainer, DimmedStateSubscribe} from "./state/DimmedContainer";
 

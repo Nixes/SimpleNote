@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import {Subscribe} from "unstated";
-import {DimmedContainer} from "../state/DimmedContainer";
-
-export interface DimmerProps {
-    //hideDim:any,
-    isDimmed:boolean
-}
+import {DimmedContainer} from "../../state/DimmedContainer";
+import './Dimmer.css';
 
 class Dimmer extends Component {
     render() {
