@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
+import {Subscribe} from "unstated";
+import {DimmedContainer} from "../state/DimmedContainer";
 
 export interface DimmerProps {
     //hideDim:any,
     isDimmed:boolean
 }
 
-class Dimmer extends Component<DimmerProps> {
+class Dimmer extends Component {
     render() {
-        //onClick={this.props.hideDim()}
         return (
-            <div id="dim" className={this.props.isDimmed ? "visible" : "hidden"}></div>
+			<Subscribe to={[DimmedContainer]}>
+				{(dimmedStateUnstated:any) => (
+					<div id="dim" onClick={dimmedStateUnstated.hideDim} className={dimmedStateUnstated.state.isDimmed ? "visible" : "hidden"}></div>
+				)}
+			</Subscribe>
         );
     }
 }
