@@ -6,6 +6,7 @@ import {Note} from "../types/note";
 
 
 interface NotesState {
+	lastNoteId:number, // this should be removed once this is reconnected to its correct api
 	currentPage: number,
 	notes: Map<number,Note>;
 }
@@ -14,6 +15,7 @@ export class NotesContainer extends Container<NotesState> {
 	constructor() {
 		super();
 		this.state = {
+			lastNoteId:0,
 			currentPage: 0,
 			notes: new Map()
 		};
@@ -24,17 +26,26 @@ export class NotesContainer extends Container<NotesState> {
 	}
 
 	public addNote = async (noteContent) => {
-			const apiUrl = "noteQuery.php";
-			const body = "notesRequest_Type=add&note=" + noteContent;
-
-			// replace old code with new fetch syntax
-			const response = await fetch(apiUrl,{
-				method:"POST",
-				headers: [["Content-type","application/x-www-form-urlencoded"]],
-				body:body
-			});
-			console.log("Add note API result: ");
-			console.log(response.json());
+			// const apiUrl = "noteQuery.php";
+			// const body = "notesRequest_Type=add&note=" + noteContent;
+			//
+			// // replace old code with new fetch syntax
+			// const response = await fetch(apiUrl,{
+			// 	method:"POST",
+			// 	headers: [["Content-type","application/x-www-form-urlencoded"]],
+			// 	body:body
+			// });
+			// console.log("Add note API result: ");
+			// console.log(response.json());
+		let nextId = this.state.lastNoteId+1;
+		const note:Note = {
+			id:nextId,
+			content:noteContent
+		};
+		const previousState = this.state;
+		previousState.lastNoteId = nextId;
+		this.setState(previousState);
+		this.stateAddNote(note);
 	}
 
 

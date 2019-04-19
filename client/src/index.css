@@ -107,7 +107,7 @@ button:active {
 	width: 100%;
 }
 
-#add_note form {
+#add_note {
 	padding:10px;
 }
 #noteContent {

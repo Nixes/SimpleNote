@@ -1,28 +1,25 @@
-import React, { Component } from 'react';
+import React, {Component, PureComponent} from 'react';
 import './App.css';
 import CreateNote from "./components/CreateNote";
 import Dimmer from "./components/Dimmer/Dimmer";
 import { Subscribe } from 'unstated'
 import {DimmedContainer, DimmedStateSubscribe} from "./state/DimmedContainer";
 import Notes from "./components/Notes/Notes";
+import NotesContainer, {NotesStateSubscribe} from "./state/NotesContainer";
 
 class NoteApp extends Component {
   render() {
     return (
       <div id="app">
         <div id="container">
-			<DimmedStateSubscribe>{(dimmedStateUnstated: any) =>
-					<CreateNote showDim={dimmedStateUnstated.showDim} hideDim={dimmedStateUnstated.hideDim}/>
-			}</DimmedStateSubscribe>
+			<Subscribe to={[DimmedContainer,NotesContainer]}>{(dimmedStateUnstated: any, notesContainer: any) =>
+					<CreateNote showDim={dimmedStateUnstated.showDim} hideDim={dimmedStateUnstated.hideDim} addNote={notesContainer.addNote}/>
+			}</Subscribe>
 
-          <div id="notes">
-          </div>
-		{/*<Notes/>*/}
-
+			<NotesStateSubscribe>{(notesContainer: any) =>
+				<Notes notesContainer={notesContainer}/>
+			}</NotesStateSubscribe>
         </div>
-		  <DimmedStateSubscribe>{(dimmedStateUnstated:any) =>
-		  				<button onClick={dimmedStateUnstated.showDim}>Dimm everything</button>}
-		  </DimmedStateSubscribe>
 		<Dimmer/>
       </div>
     );

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, PureComponent} from 'react';
 import Masonry from 'react-masonry-component';
 import {Subscribe} from "unstated";
 import {DimmedContainer} from "../state/DimmedContainer";
@@ -6,6 +6,7 @@ import {DimmedContainer} from "../state/DimmedContainer";
 interface CreateNoteProps {
 	showDim:Function;
 	hideDim:Function;
+	addNote:Function;
 }
 
 class CreateNote extends Component<CreateNoteProps> {
@@ -13,11 +14,12 @@ class CreateNote extends Component<CreateNoteProps> {
 		super(props);
 	}
 
-  addNewNote = () => {
+  addNewNote = (e) => {
 	  let noteContentElem = document.getElementById("noteContent")  as HTMLInputElement;
 	  if (noteContentElem) {
 		  let noteContent = noteContentElem.value;
 		  // add to local state and send to server
+		  this.props.addNote(noteContent);
 	  }
   }
 
@@ -53,11 +55,11 @@ class CreateNote extends Component<CreateNoteProps> {
 
 			<div id="createNoteComponent">
 			  <div id="add_note">
-				<form onSubmit={this.addNewNote}>
+				<div>
 				  <textarea rows={1} id="noteContent"></textarea>
-				  <button type="submit">add</button>
+				  <button onClick={this.addNewNote} type="submit">add</button>
 				  <button type="reset" id="cancel" onClick={this.hideAddNote}>cancel</button>
-				</form>
+				</div>
 			  </div>
 			  <button id = "addnotebutton" onClick = {this.showAddNote} > addnote </button>
 			</div>
