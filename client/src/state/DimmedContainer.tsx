@@ -11,14 +11,14 @@ export class DimmedContainer extends Container<DimmedState> {
 	constructor() {
 		super();
 		this.state = {
-			isDimmed:true
+			isDimmed:false
 		};
 	}
 
-	public showDim() {
+	public showDim = () => {
 		this.setState({isDimmed:true});
 	}
-	public hideDim() {
+	public hideDim = () => {
 		this.setState({isDimmed:false});
 	}
 }
