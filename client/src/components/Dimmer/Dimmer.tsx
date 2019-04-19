@@ -5,6 +5,7 @@ import './Dimmer.css';
 
 class Dimmer extends Component {
     render() {
+    	console.log("Dimmer rerender triggered");
         return (
 			<Subscribe to={[DimmedContainer]}>
 				{(dimmedStateUnstated:any) => (

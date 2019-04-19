@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
 import Masonry from 'react-masonry-component';
+import {Subscribe} from "unstated";
+import {DimmedContainer} from "../state/DimmedContainer";
 
-class CreateNote extends Component {
-  showDim() {
-    // const dim = document.getElementById("dim");
-    // dim.style.display = "block";
-  }
-  hideDim() {
-    // const dim = document.getElementById("dim");
-    // dim.style.display = "none";
-  }
+interface CreateNoteProps {
+	showDim:Function;
+	hideDim:Function;
+}
 
-  getXmlhttp () {
-      return new XMLHttpRequest();
-  }
+class CreateNote extends Component<CreateNoteProps> {
+	constructor(props) {
+		super(props);
+	}
 
-
-  add() {
-    let noteContentElem = document.getElementById("noteContent")  as HTMLInputElement;
-    if (noteContentElem) {
-      let noteContent = noteContentElem.value;
-      const xmlhttp = this.getXmlhttp();
-      xmlhttp.open("POST","noteQuery.php",true);
-      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send("notesRequest_Type=add&note=" + noteContent);
-    }
+  addNewNote = () => {
+	  let noteContentElem = document.getElementById("noteContent")  as HTMLInputElement;
+	  if (noteContentElem) {
+		  let noteContent = noteContentElem.value;
+		  // add to local state and send to server
+	  }
   }
 
-  hideAddNote (evt:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    this.hideDim();
+  hideAddNote = (evt:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    this.props.hideDim();
 
     // remove focus from note content form
     let noteContentElement = document.getElementById("noteContent");
@@ -42,8 +36,8 @@ class CreateNote extends Component {
     }
   }
 
-  showAddNote () {
-    this.showDim();
+  showAddNote = () => {
+    this.props.showDim();
     let addNoteElement = document.getElementById("add_note");
     let noteContentElem = document.getElementById("noteContent");
     if (addNoteElement) {
@@ -56,16 +50,17 @@ class CreateNote extends Component {
 
   render() {
     return (
-        <div id="createNoteComponent">
-          <div id="add_note">
-            <form onSubmit={this.add}>
-              <textarea rows={1} id="noteContent"></textarea>
-              <button type="submit">add</button>
-              <button type="reset" id="cancel" onClick={this.hideAddNote}>cancel</button>
-            </form>
-          </div>
-          <button id = "addnotebutton" onClick = {this.showAddNote} > addnote </button>
-        </div>
+
+			<div id="createNoteComponent">
+			  <div id="add_note">
+				<form onSubmit={this.addNewNote}>
+				  <textarea rows={1} id="noteContent"></textarea>
+				  <button type="submit">add</button>
+				  <button type="reset" id="cancel" onClick={this.hideAddNote}>cancel</button>
+				</form>
+			  </div>
+			  <button id = "addnotebutton" onClick = {this.showAddNote} > addnote </button>
+			</div>
     );
   }
 }

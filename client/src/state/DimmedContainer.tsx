@@ -16,6 +16,7 @@ export class DimmedContainer extends Container<DimmedState> {
 	}
 
 	public showDim = () => {
+		console.log("Showdim triggered");
 		this.setState({isDimmed:true});
 	}
 	public hideDim = () => {
