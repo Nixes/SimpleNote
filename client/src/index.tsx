@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import NoteApp from "./NoteApp";
+import {DimmedStateProvider} from "./state/DimmedContainer";
 
-ReactDOM.render(<NoteApp />, document.getElementById('root'));
+ReactDOM.render(<DimmedStateProvider><NoteApp /></DimmedStateProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

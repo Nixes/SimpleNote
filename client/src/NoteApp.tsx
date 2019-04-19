@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-component';
 import CreateNote from "./components/CreateNote";
 import Dimmer from "./components/Dimmer";
 import { Subscribe } from 'unstated'
-import {DimmedStateUnstated} from "./state/DimmedStateUnstated";
+import {DimmedContainer} from "./state/DimmedContainer";
 
 const masonryOptions = {
   transitionDuration: 0,
@@ -26,11 +26,15 @@ class NoteApp extends Component {
           // the new class name instead of id
           <Masonry className="notes" options={masonryOptions}/>
 
-
         </div>
-		  <Subscribe to={[DimmedStateUnstated]}>
+		  {/*<Subscribe to={[DimmedContainer]}>*/}
+			  {/*{(dimmedStateUnstated:any) =>*/}
+		  				{/*<button onClick={dimmedStateUnstated.showDim()}>Dimm everything</button>}*/}
+		  {/*</Subscribe>*/}
+		  <Subscribe to={[DimmedContainer]}>
 			  {(dimmedStateUnstated:any) =>
        			 <Dimmer isDimmed={dimmedStateUnstated.state.isDimmed}></Dimmer>
+
 			  }
 		  </Subscribe>
       </div>
