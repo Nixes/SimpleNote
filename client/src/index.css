@@ -60,9 +60,6 @@ h2, body, p {
 	margin-left: 5px;
 	float: right;
 }
-.editbar {
-	display: none;
-}
 
 #addnotebutton {
 	display: block;
