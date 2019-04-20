@@ -48,6 +48,9 @@ export class NotesContainer extends Container<NotesState> {
 		this.stateAddNote(note);
 	}
 
+	public removeNote = async (id:number) => {
+		this.stateRemoveNote(id);
+	}
 
 	public stateAddNotes = (newNotes:Note[]) => {
 		const notes = this.state.notes;
