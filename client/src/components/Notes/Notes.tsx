@@ -61,17 +61,38 @@ class Notes extends Component<NotesProps,NotesState> {
 		// notes.save(e.target.parentNode.parentNode);
 	}
 
+	// TODO: this should eventually be replaced with an MD format parser
+	generateHTML = (noteContent:string) => {
+		// linkify note content
+		// http://, https://, ftp://
+		var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+
+		// www. sans http:// or https://
+		var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+
+		// Email addresses
+		var emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+		// from https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
+		var tmp = noteContent
+			.replace(urlPattern, '<a href="$&">$&</a>')
+			.replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
+			.replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+		tmp = tmp.replace(/[\n\r]/g, '<br />'); // converts newlines to standard html line breaks
+
+		return tmp;
+	}
+
 	note = (note:Note) => {
 		const isBeingEdited = (this.state.currentlyEditingId === note.id);
 		return 	(
 			<div className="note" key={note.id.toString()} data-note-id={note.id.toString()}>
 				{isBeingEdited ?
 					<div className="notecontent" contentEditable={true} style={{zIndex:100}}>
-						{note.content}
+						{this.generateHTML(note.content)}
 					</div>
 						:
 					<div className="notecontent">
-						{note.content}
+						{this.generateHTML(note.content)}
 					</div>}
 
 				{ isBeingEdited ? (
