@@ -2,8 +2,9 @@ import { Provider, Subscribe, Container } from 'unstated';
 import React from 'react';
 import {Note} from "../types/note";
 
-// this state management solution is based on post in https://hmh.engineering/the-unstated-react-service-pattern-786ea6168d1d
+const API_ROOT = "http://localhost:8080/api.php";
 
+// this state management solution is based on post in https://hmh.engineering/the-unstated-react-service-pattern-786ea6168d1d
 
 interface NotesState {
 	lastNoteId:number, // this should be removed once this is reconnected to its correct api
@@ -37,6 +38,25 @@ export class NotesContainer extends Container<NotesState> {
 			// });
 			// console.log("Add note API result: ");
 			// console.log(response.json());
+		const options = {
+				mode: "cors",
+				method:"PUT",
+				body:JSON.stringify({
+					content: noteContent}),
+				headers: {
+					"Content-Type": "application/json"
+				}
+		};
+		try {
+			// @ts-ignore
+			const result = await fetch(API_ROOT+'/notes',options);
+			console.log("Addnote response: ");
+			console.log(result);
+		} catch (e) {
+			console.error(e);
+		}
+		console.log(options);
+
 		let nextId = this.state.lastNoteId+1;
 		const note:Note = {
 			id:nextId,

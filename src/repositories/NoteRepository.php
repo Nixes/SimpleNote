@@ -4,7 +4,7 @@ namespace SimpleNote\Repositories;
 use SimpleNote\Models\Note;
 use PDOException;
 use Exception;
-
+use \PDO;
 
 class NoteRepository {
     /**
@@ -74,20 +74,21 @@ class NoteRepository {
         return $createdTable;
     }
 
-    public function insertNote (Note $note) {
+    public function insertNote (Note $note): Note {
         try {
             $sql = "INSERT INTO notes (note) VALUES(:content); ";
 
-            $stmt = $this->dbh->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->execute(array(
-                ":noteNo" => $note->getId(),
-                ":note" => $note->getContent(),
+                ":content" => $note->getContent(),
             ));
 
             if ($stmt->errorCode() != '0000') {
                 throw new Exception($stmt->errorInfo()[2]);
             }
 
+            $note->setId($this->pdo->lastInsertId());
+            return $note;
         } catch (PDOException $e) {
             throw new Exception($e->getMessage());
         }

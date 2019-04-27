@@ -18,3 +18,7 @@ if (!-e $request_filename){
 ### Requirements: 
 This project requires PHP and MySQL on the server side, and a modern browser with javascript enabled for the client.
 Also requires composer to install slim (the microframework used for the API)
+
+## API
+
+Routes are relative to the main file like ``api.php/notes/{noteId}``

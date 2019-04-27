@@ -19,11 +19,38 @@ $config = ['settings' => [
 ]];
 $app = new \Slim\App($config);
 
+// BEGIN CORS CODE
+const REACT_HOST_URL = "http://localhost:3000";
+
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+	return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+	$uri = $req->getUri();
+	$fullUrl = (string) $uri;
+	$response = $next($req, $res);
+	return $response
+		->withHeader('Access-Control-Allow-Origin', REACT_HOST_URL)
+		->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+		->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+});
+// END CORS CODE
+
 // Define app routes
-$app->put('/notes/{id}', [$noteController, 'insertNote']);
+$app->put('/notes', [$noteController, 'insertNote']);
+$app->get('/notes', [$noteController, 'getAll']);
+
+$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
+	$name = $args['name'];
+	$response->getBody()->write("Hello, $name");
+
+	return $response;
+});
 
 // Run app
 $app->run();
+
 
 // request summary model
 // need type of request, notesRequest_Type = page, notesRequest_Type = elementno

@@ -2,6 +2,7 @@
 
 namespace SimpleNote\Controllers;
 
+use mysql_xdevapi\Exception;
 use SimpleNote\Models\Note;
 use SimpleNote\Repositories\NoteRepository;
 use \Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,7 +19,7 @@ class NoteController {
         $this->noteRepository = $noteRepository;
     }
 
-    private function successAPIResponse(Response $response,array $data) {
+    private function successAPIResponse(Response $response, $data) {
         $status = 200;
         return $response->withJson($data)->withStatus($status);
     }
@@ -34,25 +35,26 @@ class NoteController {
     }
 
     public function getAll(Request $request, Response $response, array $args) {
-        echo "Args: "; printf($args);
-		//
-		$LastGroupNo = $args['lastGroupNo'];
-		$Page = $args['pageNo'];
+		$LastGroupNo = $request->getAttribute('lastGroupNum');
+		$Page = $request->getAttribute('lastGroupNum');
+		echo "Last group no: ".$LastGroupNo." Page: ".$Page;
 		$notes = [];
         if (!empty($content )) {
-			$notes = $this->noteRepository->getNotesPage($LastGroupNo,$Page);
+			$notes[] = $this->noteRepository->getNotesPage($LastGroupNo,$Page);
 		}
 		$this->successAPIResponse($response,$notes);
     }
 
     public function insertNote(Request $request, Response $response, array $args) {
-        $content = $request->getAttribute("content");
-
-        if (!empty($content )) {
-            $note = new Note();
-            $note->setContent($content );
-            $this->noteRepository->insertNote($note);
-        }
+        $body = $request->getParsedBody();
+		$content = $body["content"];
+        if (empty($content )) {
+        	throw new Exception();
+		}
+        $note = new Note();
+        $note->setContent($content );
+        $note = $this->noteRepository->insertNote($note);
+        $this->successAPIResponse($response,$note);
 	}
 	
     public function updateNote(Request $request, Response $response, array $args) {
