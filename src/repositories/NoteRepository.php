@@ -120,17 +120,29 @@ class NoteRepository {
         }
     }
 
-    public function getNotesPage($conn,$LastGroupNo, $Page) {
-        $ResultNotes = array();
+    public function getNotesPage(int $LastGroupNo, int $Page):array {
         $offset = $LastGroupNo * $Page;
-        if ( $noteQuery = mysqli_query($conn, "SELECT * FROM `notes` ORDER BY `notes`.`noteNo` DESC LIMIT $LastGroupNo OFFSET $offset;") ) { // go here http://use-the-index-luke.com/sql/partial-results/fetch-next-page for more efficient methods, the current way of doing it is bad in the long term as the query time will exponentially increase with page number
-            $i = 0;
-            while ($note = mysqli_fetch_row($noteQuery) ) {
-                $ResultNotes[$i] = $note;
-                $i++;
-            };
-        };
-        echo json_encode($ResultNotes);
+        // go here http://use-the-index-luke.com/sql/partial-results/fetch-next-page for more efficient methods, the current way of doing it is bad in the long term as the query time will exponentially increase with page number
+		$sql =  "SELECT * FROM `notes` ORDER BY `notes`.`noteNo` DESC LIMIT :lastGroupNo :offset ;";
+		try {
+			$stmt = $this->dbh->prepare($sql);
+			$stmt->execute(array(
+				":lastGroupNo" => $LastGroupNo,
+				":offset" => $offset,
+			));
+
+			if ($stmt->errorCode() != '0000') {
+				throw new Exception($stmt->errorInfo()[2]);
+			}
+
+			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+				$results[] = self::build($row);
+			}
+
+			return $results;
+		} catch (PDOException $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function removeNote($conn, $noteNo) {

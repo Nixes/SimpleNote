@@ -13,5 +13,15 @@
         "ext-pdo": "*",
         "ext-json": "*",
         "slim/slim": "3.0"
+	},
+	"scripts": {
+		"start": [
+			"php -S localhost:8080 api.php"
+		]
+	},
+	"autoload": {
+        "psr-4": {
+            "SimpleNote\\": "src"
+        }
     }
 }

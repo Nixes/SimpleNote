@@ -33,6 +33,18 @@ class NoteController {
         return $response->withJson($data)->withStatus($status);
     }
 
+    public function getAll(Request $request, Response $response, array $args) {
+        echo "Args: "; printf($args);
+		//
+		$LastGroupNo = $args['lastGroupNo'];
+		$Page = $args['pageNo'];
+		$notes = [];
+        if (!empty($content )) {
+			$notes = $this->noteRepository->getNotesPage($LastGroupNo,$Page);
+		}
+		$this->successAPIResponse($response,$notes);
+    }
+
     public function insertNote(Request $request, Response $response, array $args) {
         $content = $request->getAttribute("content");
 
@@ -41,8 +53,8 @@ class NoteController {
             $note->setContent($content );
             $this->noteRepository->insertNote($note);
         }
-    }
-
+	}
+	
     public function updateNote(Request $request, Response $response, array $args) {
         if (
             ( isset($_POST["note"]) and $_POST["note"] != "" ) and

@@ -8,6 +8,13 @@ To allow running without the to be released common-login system remove the inclu
 composer install
 ```
 
+if using ngnix add below to the location block
+```ngnix
+if (!-e $request_filename){
+    rewrite ^(.*)$ /api.php break;
+}
+```
+
 ### Requirements: 
 This project requires PHP and MySQL on the server side, and a modern browser with javascript enabled for the client.
 Also requires composer to install slim (the microframework used for the API)

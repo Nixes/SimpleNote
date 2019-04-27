@@ -15,6 +15,7 @@ $noteController = new \SimpleNote\Controllers\NoteController($noteRepository);
 // Create and configure Slim app
 $config = ['settings' => [
     'addContentLengthHeader' => false,
+	'displayErrorDetails' => true,
 ]];
 $app = new \Slim\App($config);
 
