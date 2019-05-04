@@ -6,6 +6,8 @@ To allow running without the to be released common-login system remove the inclu
 ## Installation:
 ```
 composer install
+cd client
+yarn install
 ```
 
 if using ngnix add below to the location block
@@ -13,6 +15,16 @@ if using ngnix add below to the location block
 if (!-e $request_filename){
     rewrite ^(.*)$ /api.php break;
 }
+```
+
+
+## Running backend server:
+```
+composer start
+```
+## Running frontend server:
+```
+yarn start
 ```
 
 ### Requirements: 
