@@ -2,7 +2,7 @@
 
 namespace SimpleNote\Models;
 
-class Note {
+class Note implements \JsonSerializable {
     /**
      * @var int
      */
@@ -44,4 +44,8 @@ class Note {
     {
         $this->content = $content;
     }
+
+    public function jsonSerialize() {
+		return get_object_vars($this);
+	}
 }
