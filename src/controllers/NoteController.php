@@ -56,7 +56,18 @@ class NoteController {
         $note = $this->noteRepository->insertNote($note);
         return $this->successAPIResponse($response,$note);
 	}
-	
+
+
+	public function removeNote(Request $request, Response $response, array $args) {
+    	try {
+			$noteId = $args['noteId'];
+			$this->noteRepository->removeNote($noteId);
+			return $this->successAPIResponse($response, array( 'count'=>1));
+		} catch (\Exception $error) {
+			return $this->errorAPIResponse($response,$error);
+		}
+	}
+
     public function updateNote(Request $request, Response $response, array $args) {
         if (
             ( isset($_POST["note"]) and $_POST["note"] != "" ) and

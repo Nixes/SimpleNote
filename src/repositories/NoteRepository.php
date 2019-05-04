@@ -151,12 +151,28 @@ class NoteRepository {
         }
     }
 
-    public function removeNote($conn, $noteNo) {
-        if ( $noteQuery = mysqli_query($conn, "DELETE FROM `notes` WHERE noteNo=$noteNo") ) {
-            echo "ok";
-        } else {
-            echo "failed";
-        }
+	/**
+	 * @param int $noteNo
+	 * @throws Exception
+	 */
+    public function removeNote(int $noteNo) {
+		$query = "DELETE FROM `notes` WHERE noteNo= :noteNo;";
+		try {
+			$stmt = $this->pdo->prepare($query);
+			$stmt->execute(array(
+				":noteNo" => $noteNo
+			));
+
+			if ($stmt->errorCode() != '0000') {
+				throw new Exception($stmt->errorInfo()[2]);
+			}
+
+			if(!$stmt->rowCount()) {
+				throw new Exception("Failed to delete row");
+			}
+		} catch (PDOException $e) {
+			throw new Exception($e->getMessage());
+		}
     }
 
     public function checkUpdates($conn, $noteNo) {
