@@ -42,7 +42,7 @@ class NoteController {
         if (!empty($content )) {
 			$notes[] = $this->noteRepository->getNotesPage($LastGroupNo,$Page);
 		}
-		$this->successAPIResponse($response,$notes);
+		return $this->successAPIResponse($response,$notes);
     }
 
     public function insertNote(Request $request, Response $response, array $args) {
@@ -54,7 +54,7 @@ class NoteController {
         $note = new Note();
         $note->setContent($content );
         $note = $this->noteRepository->insertNote($note);
-        $this->successAPIResponse($response,$note);
+        return $this->successAPIResponse($response,$note);
 	}
 	
     public function updateNote(Request $request, Response $response, array $args) {
