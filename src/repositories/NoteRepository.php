@@ -41,7 +41,12 @@ class NoteRepository {
     }
 
     public function createTable() {
-        $query = "CREATE TABLE notes (note Varchar(10000),noteNo Int unique); ";
+        $query = "CREATE TABLE `notes` (
+				  `note` varchar(10000) NOT NULL,
+				  `noteNo` int(11) NOT NULL AUTO_INCREMENT,
+				  PRIMARY KEY (`noteNo`),
+				  UNIQUE KEY `noteNo` (`noteNo`)
+				) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;";
         try {
             $stmt = $this->pdo->prepare($query);
             $stmt->execute();
