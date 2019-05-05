@@ -65,15 +65,15 @@ class Notes extends Component<NotesProps,NotesState> {
 	generateHTML = (noteContent:string) => {
 		// linkify note content
 		// http://, https://, ftp://
-		var urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+		const urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
 
 		// www. sans http:// or https://
-		var pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+		const pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
 
 		// Email addresses
-		var emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+		const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
 		// from https://stackoverflow.com/questions/37684/how-to-replace-plain-urls-with-links
-		var tmp = noteContent
+		let tmp = noteContent
 			.replace(urlPattern, '<a href="$&">$&</a>')
 			.replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
 			.replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
