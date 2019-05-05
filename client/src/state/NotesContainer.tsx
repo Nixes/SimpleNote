@@ -89,7 +89,7 @@ export class NotesContainer extends Container<NotesState> {
 			state.currentPage = nextPage;
 			this.setState(state);
 		} catch (e) {
-
+			console.error(e);
 		}
 
 		this.stateIsLoading(false);
