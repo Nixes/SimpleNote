@@ -127,8 +127,9 @@ class NoteRepository {
     }
 
     public function getNotesPage(int $pageSize, int $Page):array {
-        $offset = $pageSize * $Page;
-        // go here http://use-the-index-luke.com/sql/partial-results/fetch-next-page for more efficient methods, the
+		$results = [];
+		$offset = $pageSize * $Page;
+		// go here http://use-the-index-luke.com/sql/partial-results/fetch-next-page for more efficient methods, the
 		// current way of doing it is bad in the long term as the query time will exponentially increase with page number
 		$sql =  "SELECT * FROM notes ORDER BY notes.noteNo DESC LIMIT :pageSize OFFSET :offset;";
 		try {
