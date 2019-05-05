@@ -58,6 +58,20 @@ class NoteController {
         return $this->successAPIResponse($response,$note);
 	}
 
+    public function updateNote(Request $request, Response $response, array $args) {
+        $body = $request->getParsedBody();
+		$content = $body["content"];
+		$noteId = $args['noteId'];
+        if (empty($content )) {
+        	throw new Exception("Notes cannot be empty");
+		}
+        $note = new Note();
+        $note->setContent($content);
+        $note->setId($noteId);
+        $note = $this->noteRepository->updateNote($note);
+        return $this->successAPIResponse($response,$note);
+	}
+
 
 	public function removeNote(Request $request, Response $response, array $args) {
     	try {

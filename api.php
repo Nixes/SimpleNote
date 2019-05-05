@@ -40,6 +40,7 @@ $app->add(function ($req, $res, $next) {
 // Define app routes
 $app->put('/notes', [$noteController, 'insertNote']);
 $app->delete('/notes/{noteId}', [$noteController, 'removeNote']);
+$app->put('/notes/{noteId}', [$noteController, 'updateNote']);
 $app->get('/notes', [$noteController, 'getAll']);
 
 $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
