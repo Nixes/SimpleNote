@@ -19,9 +19,29 @@ interface NotesState {
 }
 
 class Notes extends Component<NotesProps,NotesState> {
+	private readonly pixelBufferFetch = 200;
 	constructor(props) {
 		super(props);
 		this.state={currentlyEditingId:null};
+
+		this.props.notesContainer.getNewPage();
+		window.onscroll = this.checkScroll;
+	}
+
+
+	checkScroll = () => {
+		// compatability boilerplate
+		const body = document.body;
+		const html = document.documentElement;
+		const documentHeight = Math.max( body.scrollHeight, body.offsetHeight,
+			html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+		if ((window.innerHeight + this.pixelBufferFetch) > documentHeight) {
+			// simple blocking system, prevents notes from loading in wrong order
+			// TODO: FIX. This may have issues when scrolling too fast, we may need some kind of queuing system
+			console.log("A page was requested during filling");
+			this.props.notesContainer.getNewPage();
+		}
 	}
 
 	activateEditMode(id:number) {
