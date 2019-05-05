@@ -9,6 +9,8 @@ const API_ROOT = "http://localhost:8080/api.php";
 interface NotesState {
 	lastNoteId:number, // this should be removed once this is reconnected to its correct api
 	currentPage: number,
+	hasMore: boolean,
+	isLoading: boolean,
 	notes: Map<number,Note>;
 }
 
@@ -61,22 +63,36 @@ export class NotesContainer extends Container<NotesState> {
 		this.state = {
 			lastNoteId:0,
 			currentPage: 0,
+			hasMore: true,
+			isLoading: false,
 			notes: new Map()
 		};
 	}
 
 	public getNewPage = async () => {
-		const nextPage = this.state.currentPage + 1;
-		const apiNotes = await NoteAPI.getPage(nextPage);
-		const notes = apiNotes.map((apiNote)=>{
-			return {id: parseInt(apiNote.id), content: apiNote.content};
-		});
-		this.stateGetPage(notes);
+		// if there are no more, or we are still loading them, then don't get more notes
+		if (!this.state.hasMore || this.state.isLoading) return;
 
-		// update page number
-		const state = this.state;
-		state.currentPage = nextPage;
-		this.setState(state);
+		try {
+			const nextPage = this.state.currentPage + 1;
+
+			this.stateIsLoading(true);
+			const apiNotes = await NoteAPI.getPage(nextPage);
+			const notes = apiNotes.map((apiNote)=>{
+				return {id: parseInt(apiNote.id), content: apiNote.content};
+			});
+
+			this.stateGetPage(notes);
+
+			// update page number
+			const state = this.state;
+			state.currentPage = nextPage;
+			this.setState(state);
+		} catch (e) {
+
+		}
+
+		this.stateIsLoading(false);
 	};
 
 	public addNote = async (noteContent) => {
@@ -88,13 +104,11 @@ export class NotesContainer extends Container<NotesState> {
 				id:noteId,
 				content:noteContent
 			};
-			const previousState = this.state;
-			this.setState(previousState);
 			this.stateAddNote(note);
 		} catch (e) {
 			console.error(e);
 		}
-	}
+	};
 
 	public removeNote = async (id:number) => {
 		try {
@@ -103,7 +117,7 @@ export class NotesContainer extends Container<NotesState> {
 		}catch (e) {
 			console.error(e);
 		}
-	}
+	};
 
 	public stateAddNotes = (newNotes:Note[]) => {
 		const notes = this.state.notes;
@@ -113,32 +127,38 @@ export class NotesContainer extends Container<NotesState> {
 		}
 
 		this.setState({ notes: notes});
-	}
+	};
 
 	private stateGetPage = (pageNotes: Note[]) => {
 		this.stateAddNotes(pageNotes);
-	}
+	};
 
 	private stateAddNote = (newNote:Note) => {
 		const notes = this.state.notes;
 		notes.set(newNote.id,newNote);
 
 		this.setState({ notes: notes});
-	}
+	};
 
 	public stateRemoveNote = (id:number) => {
 		const notes = this.state.notes;
 		notes.delete(id);
 
 		this.setState({ notes: notes});
-	}
+	};
 
 	public stateUpdateNote = (id:number) => {
 		const notes = this.state.notes;
 		notes.delete(id);
 
 		this.setState({ notes: notes});
-	}
+	};
+
+	public stateIsLoading = (isLoading: boolean) => {
+		const state = this.state;
+		state.isLoading = isLoading;
+		this.setState(state);
+	};
 }
 
 // Following the Singleton Service pattern (think Angular Service),
