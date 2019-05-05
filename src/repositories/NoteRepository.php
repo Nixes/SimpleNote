@@ -126,16 +126,18 @@ class NoteRepository {
         }
     }
 
-    public function getNotesPage(int $LastGroupNo, int $Page):array {
-        $offset = $LastGroupNo * $Page;
-        // go here http://use-the-index-luke.com/sql/partial-results/fetch-next-page for more efficient methods, the current way of doing it is bad in the long term as the query time will exponentially increase with page number
-		$sql =  "SELECT * FROM `notes` ORDER BY `notes`.`noteNo` DESC LIMIT :lastGroupNo :offset ;";
+    public function getNotesPage(int $pageSize, int $Page):array {
+        $offset = $pageSize * $Page;
+        // go here http://use-the-index-luke.com/sql/partial-results/fetch-next-page for more efficient methods, the
+		// current way of doing it is bad in the long term as the query time will exponentially increase with page number
+		$sql =  "SELECT * FROM notes ORDER BY notes.noteNo DESC LIMIT :pageSize OFFSET :offset;";
 		try {
-			$stmt = $this->dbh->prepare($sql);
-			$stmt->execute(array(
-				":lastGroupNo" => $LastGroupNo,
-				":offset" => $offset,
-			));
+			$stmt = $this->pdo->prepare($sql);
+			// have to manually bind to set types to integer, since LIMIT doesn't perform type coercion
+			// unlike everything else in MYSQL
+			$stmt->bindParam(":pageSize",$pageSize, PDO::PARAM_INT);
+			$stmt->bindParam(":offset",$offset, PDO::PARAM_INT);
+			$stmt->execute();
 
 			if ($stmt->errorCode() != '0000') {
 				throw new Exception($stmt->errorInfo()[2]);

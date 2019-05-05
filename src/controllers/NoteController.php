@@ -34,22 +34,23 @@ class NoteController {
         return $response->withJson($data)->withStatus($status);
     }
 
-    public function getAll(Request $request, Response $response, array $args) {
-		$LastGroupNo = $request->getAttribute('lastGroupNum');
-		$Page = $request->getAttribute('lastGroupNum');
-		echo "Last group no: ".$LastGroupNo." Page: ".$Page;
-		$notes = [];
-        if (!empty($content )) {
-			$notes[] = $this->noteRepository->getNotesPage($LastGroupNo,$Page);
+    public function getAll(Request $request, Response $response) {
+		try {
+			$queryParams = $request->getQueryParams();
+			$pageSize = $queryParams['pageSize'];
+			$page = $queryParams['page'];
+			$notes = $this->noteRepository->getNotesPage($pageSize,$page);
+			return $this->successAPIResponse($response,$notes);
+		} catch (\Exception $error) {
+			return $this->errorAPIResponse($response,$error);
 		}
-		return $this->successAPIResponse($response,$notes);
     }
 
     public function insertNote(Request $request, Response $response, array $args) {
         $body = $request->getParsedBody();
 		$content = $body["content"];
         if (empty($content )) {
-        	throw new Exception();
+        	throw new Exception("Notes cannot be empty");
 		}
         $note = new Note();
         $note->setContent($content );
